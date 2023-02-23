@@ -4,11 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('add_to_cart.css')}}">
     <title>Document</title>
+    <style>
+        figure img{
+            width: 100%;
+            height: auto
+        }
+    </style>
 </head>
 <body>
-    {{$data}}
     <div id="wrapper">
         <div class="cart-icon-top">
         </div>
@@ -20,7 +26,7 @@
         </div>
         <div class="meun">
             <ul class="navbar m-0" id="nav">
-                <li><a class="active" href="ecomerce-plant-store.html">Home</a></li>
+                <li><a class="active" href="{{url('/home')}}">Home</a></li>
                 <li><a href="ecomerce-shop.html">Shop</a></li>
                 <li><a href="blog.html">Blog</a></li>
                 <li><a href="about.html">About</a></li>
@@ -44,76 +50,40 @@
             </div>
         </div>
         
-        <div id="grid-selector">
-               <div id="grid-menu">
-                      View:
-                   <ul>           	   
-                       <li class="largeGrid"><a href=""></a></li>
-                       <li class="smallGrid"><a class="active" href=""></a></li>
-                   </ul>
-               </div>
-        </div>
-        
-        <div id="grid">
+        <div class="row mt-4">
             @foreach ($data as $item)
-                <div class="product">
-                    <div class="info-large">
-                        <div class="price-big">
-                            <span>$43</span> $39
-                        </div>
-                        <button class="add-cart-large">Add To Cart</button>                                                   
-                    </div>
-                    <div class="make3D">
-                        <div class="product-front">
-                            <div class="shadow"></div>
+                <div class="col-3">
+                    <div class="card p-2">
+                        <figure>
                             <img src="http://127.0.0.1:8000/image/{{$item['image']}}" alt="">
-                            <div class="image_overlay"></div>
-                            <div class="add_to_cart">Add to cart</div>
-                            <div class="view_gallery">View gallery</div>                
-                            <div class="stats">        	
-                                <div class="stats-container">
-                                    <span class="product_price">${{$item['price']}}</span>
-                                    <span class="product_name">{{$item['name']}}</span>                                                                
-                                </div>                         
-                            </div>
+                        </figure>
+                        <div class="p-2">
+                            <span class="product_price float-left">${{$item['price']}}</span>
+                            <span class="product_name float-right">{{$item['name']}}</span>                                                                
+                        </div> 
+                        <form action="{{url('/update_cart_qty')}}" method="post">
+                            @csrf
+                            <div class="form-group">
+                                <input type="number" class="form-control" value="{{$item['qty']}}" name="qty">
+                            </div> 
+                        <div>
+                                <input type="hidden" value="{{$item['cart_id']}}" name="id">
+                                <span>Total: ${{ ($item['qty']*$item['price']) }}</span>
+                                <button type="submit" class="btn mt-2 btn-primary btn-block">update qty</button>
+                            </form>
                         </div>
-                        <div class="product-back">
-                            <div class="shadow"></div>
-                            <div class="carousel">
-                                <ul class="carousel-container">
-                                    <li>
-                                        <img src="../Plants/hyacinth (10).webp" alt="" width="100%">
-                                        <div class="carousel_name">Hyacinth orientalis'Anna Marie'(Dutch Hyacinth)</div>
-                                    </li>
-                                    <li>
-                                        <img src="../Plants/hyacinth (15).webp" alt="" width="100%">
-                                        <div class="carousel_name">Hyacinth orientalis'Pink Pearl'(Dutch Hyacinth)</div>
-                                    </li>
-                                    <li>
-                                        <img src="../Plants/hyacinth (11).webp" alt="" width="100%">
-                                        <div class="carousel_name">Hyacinth orientalis'Miss Saigon'(Dutch Hyacinth)</div>
-                                    </li>
-                                </ul>
-                                <div class="arrows-perspective">
-                                    <div class="carouselPrev">
-                                        <div class="y"></div>
-                                        <div class="x"></div>
-                                    </div>
-                                    <div class="carouselNext">
-                                        <div class="y"></div>
-                                        <div class="x"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="flip-back">
-                                <div class="cy"></div>
-                                <div class="cx"></div>
-                            </div>
-                        </div>	  
                     </div>	
                 </div>
             @endforeach
             
         </div>
+
+        <div class="float-left ml-3 mt-3">
+            <a href="{{url('/checkout')}}" class="btn btn-success">
+                Checkout
+            </a>
+        </div>
+
+    </div>
 </body>
 </html>

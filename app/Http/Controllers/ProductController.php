@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller
 {
     //
+    public function __construct()
+    {
+            /** Share Data to All View Blade ***/
+            view()->composer('*', function ($view) {
+                $data = Product::all();
+                $view->with([
+                    'data' => $data,
+                ]);
+            });
+    }
     public function get(Request $request){
-        $data = Product::all();
-        return view('welcome',[
-            'data'=>$data
-        ]);
+        return view('welcome',);
     }
 
     public function addToCard(Request $request)
@@ -37,7 +44,18 @@ class ProductController extends Controller
             $data->save();
            }
 
-           $orderCart = Cart::where('user_id',auth()->user()->id)->get();
+           $orderCart = Cart::where('user_id',auth()->user()->id)
+           ->where('cart.qty','>',0)
+           ->join('product','product.id','cart.product_id')
+           ->select(
+               'cart.*',
+               'cart.id as cart_id',
+               'product.id as product_id',
+               'product.*'
+           )->get();
+              return view('add_to_card',[
+                'data' => $orderCart
+              ]);
            return view('add_to_card',[
              'data' => $orderCart
            ]);
@@ -49,13 +67,16 @@ class ProductController extends Controller
 
     public function view_cart(Request $request){
         $orderCart = Cart::where('user_id',auth()->user()->id)
+        ->where('cart.qty','>',0)
         ->join('product','product.id','cart.product_id')
         ->select(
             'cart.*',
+            'cart.id as cart_id',
+            'product.id as product_id',
             'product.*'
         )->get();
            return view('add_to_card',[
              'data' => $orderCart
-           ]);
+        ]);
     }
 }

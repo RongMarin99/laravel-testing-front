@@ -19,7 +19,7 @@
         </style>
     </head>
     <body>
-        {{$data}}
+
         <div class="grid">
             <section class="header">
                 <div class="row search mx-0 align-items-center">
@@ -63,7 +63,7 @@
                             <li><a href="blog.html">Blog</a></li>
                             <li><a href="about.html">About</a></li>
                             <li><a href="contact.html">Contact</a></li>
-                            <li><a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a></li>
+                            <li><a href="{{url('add_to_card')}}"><i class="fa-solid fa-bag-shopping"></i></a></li>
                             <a href="#" id="close" class="d-lg-none"><i class ="fa-sharp fa-solid fa-xmark"></i></a>
                         </ul>
                     </div>
