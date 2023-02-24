@@ -51,7 +51,7 @@
         </div>
         
         <div class="row mt-4">
-            @foreach ($data as $item)
+            @foreach ($cart as $item)
                 <div class="col-3">
                     <div class="card p-2">
                         <figure>

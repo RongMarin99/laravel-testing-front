@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -22,7 +23,10 @@ class CartController extends Controller
         if(count($data)>0){
             return view('checkout');
         }else{
-            return view('home');
+            $data = Product::all();
+            return view('home',[
+                'data' => $data
+            ]);
         }
     }
 }

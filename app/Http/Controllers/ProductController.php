@@ -54,10 +54,10 @@ class ProductController extends Controller
                'product.*'
            )->get();
               return view('add_to_card',[
-                'data' => $orderCart
+                'cart' => $orderCart
               ]);
            return view('add_to_card',[
-             'data' => $orderCart
+             'cart' => $orderCart
            ]);
             
         }else{
@@ -76,7 +76,7 @@ class ProductController extends Controller
             'product.*'
         )->get();
            return view('add_to_card',[
-             'data' => $orderCart
+             'cart' => $orderCart
         ]);
     }
 }

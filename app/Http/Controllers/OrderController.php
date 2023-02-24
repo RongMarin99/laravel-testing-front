@@ -39,7 +39,7 @@ class OrderController extends Controller
             $delete_cart->delete();
         }
 
-      
-        return view('home');
+        $data = Product::all();
+        return view('home',['data'=>$data]);
     }
 }
